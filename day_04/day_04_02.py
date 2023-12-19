@@ -8,6 +8,7 @@ sum = 0
 
 num_wins = [0] * len(Lines)
 
+#use the same idea from pt 1 to count the number of wins
 for i in range(len(Lines)):
     line = Lines[i]
     matches = re.finditer(r"[0-9]+", line[9:])
@@ -24,12 +25,14 @@ for i in range(len(Lines)):
 
     num_wins[i] = total_winning
     
+#next we'll use a simple dynamic programming method to count the number of each ticket we have
 num_tickets = [1] * len(Lines)
 
 for i in range(len(num_wins)):
     for j in range(num_wins[i]):
         num_tickets[i + j + 1] += num_tickets[i]
     
+#count the total number of tickets
 for i in range(len(num_tickets)):
     sum += num_tickets[i]
 
