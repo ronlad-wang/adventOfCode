@@ -6,20 +6,31 @@ Lines = file1.readlines()
 
 sum = 0
 
-for line in Lines:
+num_wins = [0] * len(Lines)
+
+for i in range(len(Lines)):
+    line = Lines[i]
     matches = re.finditer(r"[0-9]+", line[9:])
     winning = []
-    i = 0
+    j = 0
     total_winning = 0
     for match in matches:
-        if i < 10:
+        if j < 10:
             winning.append(int(line[match.start() + 9:match.end() + 9]))
-            i += 1
+            j += 1
         else:
             if int(line[match.start() + 9:match.end() + 9]) in winning:
                 total_winning += 1
 
-    if(total_winning > 0):
-        sum += 2**(total_winning-1)
+    num_wins[i] = total_winning
+    
+num_tickets = [1] * len(Lines)
+
+for i in range(len(num_wins)):
+    for j in range(num_wins[i]):
+        num_tickets[i + j + 1] += num_tickets[i]
+    
+for i in range(len(num_tickets)):
+    sum += num_tickets[i]
 
 print(sum)
